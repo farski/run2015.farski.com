@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
         distance_t += (activity[:distance] / 1000)
 
         y = activity[:start_date].year
-        m = activity[:start_date].month
+        m = activity[:start_date].month - 1
         d = activity[:start_date].day
         data << "[Date.UTC(#{y}, #{m}, #{d}), #{distance_t.round(2)}]"
       end
