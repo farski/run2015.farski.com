@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: "dashboard#index"
   get 'roster' => 'dashboard#athletes'
   get 'leaderboard' => 'dashboard#leaderboard'
+  get 'graph' => 'dashboard#graph'
 
   resources :users, :activities
 
