@@ -18,7 +18,7 @@ class DashboardController < ApplicationController
 
     if params[:y] == '2014'
       start_date = Time.new(2014, 5, 5)
-      end_date = Time.new(2014, 9, 13)
+      end_date = Time.new(2015, 9, 13)
     else
       # Preseason
       start_date = Time.new(2014, 12, 1)
@@ -59,10 +59,10 @@ class DashboardController < ApplicationController
       m = end_date.month - 1
       d = end_date.day
       pdata << "{x: Date.UTC(#{y}, #{m}, #{d}), y: #{projected.round(2)}, color: '#FF0000'}"
-      pobj = "{data: [#{pdata.join(',')}]}"
+      pobj = "{name: '(#{user.forename} #{user.surname[0]})', data: [#{pdata.join(',')}], linkedTo: ':previous'}"
 
       _series << obj
-      _series << pobj unless params[:y]
+      _series << pobj #unless params[:y]
     end
 
     @series = _series.join(',')
