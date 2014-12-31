@@ -5,5 +5,8 @@
         <%= "#{athlete.forename} #{athlete.surname}" %>
       </li>
     <%- end %>
+    <li>
+      <%= link_to "Sign up...", user_omniauth_authorize_path(:strava) %>
+    </li>
   </ol>
 </main>
