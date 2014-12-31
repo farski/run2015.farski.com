@@ -1,0 +1,86 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+::selection {
+  color: white;
+  background: rgba(122, 91, 70, 0.53);
+}
+
+html {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: url(/images/15389140011_6555d202a0_op.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
+body {
+  margin: 0 auto;
+  border: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  color: rgba(98, 72, 29, 0.44);
+}
+
+main {
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  background: rgba(255, 255, 255, 0.91);
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  align-content: center;
+  -webkit-align-content: center;
+  flex-flow: wrap;
+  -webkit-flex-flow: wrap;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(98, 72, 29, 0.2);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  text-align: center;
+  flex-basis: 100%;
+  -webkit-flex-basis: 100%;
+}
+
+h1 {
+  font-weight: 900;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+h3 {
+  font-weight: 100;
+}
+
+ol {
+  list-style: none;
+}

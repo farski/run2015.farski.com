@@ -1,0 +1,20 @@
+<%= "#{@user.surname}, #{@user.forename}" %>
+
+<table>
+  <%- for activity in @activities2014 %>
+    <tr>
+      <td>
+        <%= activity['athlete']['id'] %>
+      </td>
+      <td>
+        <%= activity['start_date'] %>
+      </td>
+      <td>
+        <%= activity['type'] %>
+      </td>
+      <td>
+        <%= activity['distance'] %>
+      </td>
+    </tr>
+  <%- end %>
+</table>

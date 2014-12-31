@@ -1,0 +1,50 @@
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Strava ID
+    </th>
+    <th>
+      Type
+    </th>
+    <th>
+      Distance
+    </th>
+    <th>
+      Date (UTC)
+    </th>
+    <th>
+      Name
+    </th>
+    <th>
+      Person
+    </th>
+  </tr>
+  <%- for activity in @activities %>
+    <tr>
+      <td>
+        <%= activity.id %>
+      </td>
+      <td>
+        <%= activity.strava_id %>
+      </td>
+      <td>
+        <%= activity.strava_type %>
+      </td>
+      <td>
+        <%= activity.distance %>
+      </td>
+      <td>
+        <%= activity.start_date %>
+      </td>
+      <td>
+        <%= activity.name %>
+      </td>
+      <td>
+        <%= "#{activity.user.surname}, #{activity.user.forename}" %>
+      </td>
+    </tr>
+  <%- end %>
+</table>
