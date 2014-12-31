@@ -50,19 +50,21 @@ class DashboardController < ApplicationController
 
       obj = "{name: '#{user.forename} #{user.surname[0]}', data: [#{data.join(',')}]}"
 
-      avg = distance_t / t_elapsed
-      projected = (end_date - start_date) * avg
+      if data.last
+        avg = distance_t / t_elapsed
+        projected = (end_date - start_date) * avg
 
-      pdata = []
-      pdata << data.last
-      y = end_date.year
-      m = end_date.month - 1
-      d = end_date.day
-      pdata << "{x: Date.UTC(#{y}, #{m}, #{d}), y: #{projected.round(2)}, color: '#FF0000'}"
-      pobj = "{name: '(#{user.forename} #{user.surname[0]})', data: [#{pdata.join(',')}], linkedTo: ':previous'}"
+        pdata = []
+        pdata << data.last
+        y = end_date.year
+        m = end_date.month - 1
+        d = end_date.day
+        pdata << "{x: Date.UTC(#{y}, #{m}, #{d}), y: #{projected.round(2)}, color: '#FF0000'}"
+        pobj = "{name: '(#{user.forename} #{user.surname[0]})', data: [#{pdata.join(',')}], linkedTo: ':previous'}"
+      end
 
       _series << obj
-      _series << pobj #unless params[:y]
+      _series << pobj if pobj
     end
 
     @series = _series.join(',')
