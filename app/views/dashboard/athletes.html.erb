@@ -2,7 +2,7 @@
   <ol class="members">
     <%- @athletes.each do |athlete| %>
       <li>
-        <%= "#{athlete.forename} #{athlete.surname}" %>
+        <%= "#{athlete.forename} #{athlete.surname[0]}" %>
       </li>
     <%- end %>
     <li>
