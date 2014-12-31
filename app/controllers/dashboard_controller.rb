@@ -14,7 +14,20 @@ class DashboardController < ApplicationController
   end
 
   def graph
-    foo = []
+    _series = []
+
+    if params[:y] == '2014'
+      start_date = Time.new(2014, 5, 5)
+      end_date = Time.new(2014, 9, 13)
+    else
+      # Preseason
+      start_date = Time.new(2014, 12, 1)
+      end_date = Time.new(2015, 5, 1)
+    end
+
+    now = Time.now
+    t_remaining = end_date - now
+    t_elapsed = now - start_date
 
     for user in User.all
       data = []
@@ -37,10 +50,22 @@ class DashboardController < ApplicationController
 
       obj = "{name: '#{user.forename} #{user.surname[0]}', data: [#{data.join(',')}]}"
 
-      foo << obj
+      avg = distance_t / t_elapsed
+      projected = (end_date - start_date) * avg
+
+      pdata = []
+      pdata << data.last
+      y = end_date.year
+      m = end_date.month - 1
+      d = end_date.day
+      pdata << "{x: Date.UTC(#{y}, #{m}, #{d}), y: #{projected}, color: '#FF0000'}"
+      pobj = "{name: '(#{user.forename} #{user.surname[0]})', data: [#{pdata.join(',')}]}"
+
+      _series << obj
+      _series << pobj unless params[:y]
     end
 
-    @series = foo.join(',')
+    @series = _series.join(',')
   end
 
   def athletes
