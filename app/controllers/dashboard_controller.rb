@@ -58,8 +58,8 @@ class DashboardController < ApplicationController
       y = end_date.year
       m = end_date.month - 1
       d = end_date.day
-      pdata << "{x: Date.UTC(#{y}, #{m}, #{d}), y: #{projected}, color: '#FF0000'}"
-      pobj = "{name: '(#{user.forename} #{user.surname[0]})', data: [#{pdata.join(',')}]}"
+      pdata << "{x: Date.UTC(#{y}, #{m}, #{d}), y: #{projected.round(2)}, color: '#FF0000'}"
+      pobj = "{data: [#{pdata.join(',')}]}"
 
       _series << obj
       _series << pobj unless params[:y]
