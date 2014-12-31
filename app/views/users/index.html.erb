@@ -1,0 +1,35 @@
+<table>
+  <tr>
+    <th>
+      Last Name
+    </th>
+    <th>
+      First Name
+    </th>
+    <th>
+      Email
+    </th>
+    <th>
+      UID
+    </th>
+  </tr>
+  <%- for user in @users %>
+    <tr>
+      <td>
+        <%= user.surname %>
+      </td>
+      <td>
+        <%= user.forename %>
+      </td>
+      <td>
+        <%= user.email %>
+      </td>
+      <td>
+        <%= user.uid %>
+      </td>
+      <td>
+        <%= link_to user.id, user %>
+      </td>
+    </tr>
+  <%- end %>
+</table>
