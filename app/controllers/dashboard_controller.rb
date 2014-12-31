@@ -18,11 +18,14 @@ class DashboardController < ApplicationController
 
     if params[:y] == '2014'
       start_date = Time.new(2014, 5, 5)
-      end_date = Time.new(2015, 9, 13)
+      end_date = Time.new(2014, 9, 13)
     else
       # Preseason
       start_date = Time.new(2014, 12, 1)
       end_date = Time.new(2015, 5, 1)
+      # Regular season
+      start_date = Time.new(2015, 5, 1)
+      end_date = Time.new(2015, 10, 1)
     end
 
     now = Time.now
