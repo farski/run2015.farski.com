@@ -24,8 +24,8 @@ class DashboardController < ApplicationController
       start_date = Time.new(2014, 12, 1)
       end_date = Time.new(2015, 5, 1)
       # Regular season
-      start_date = Time.new(2015, 5, 1)
-      end_date = Time.new(2015, 10, 1)
+      # start_date = Time.new(2015, 5, 1)
+      # end_date = Time.new(2015, 10, 1)
     end
 
     now = Time.now
