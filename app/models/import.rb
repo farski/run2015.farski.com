@@ -6,7 +6,7 @@ class Import < ActiveRecord::Base
     for user in users
       client = ::Strava::Api::V3::Client.new(access_token: user.token)
 
-      _activities = client.list_athlete_activities(per_page: 20)
+      _activities = client.list_athlete_activities(per_page: 200)
 
       for activity in _activities
         _activity = Activity.find_by(strava_id: activity['id'])
