@@ -22,7 +22,7 @@
           <%= "#{user.forename} #{user.surname[0]}" %>
         </td>
         <td>
-          154 km
+          <%= "#{(@totals[user] / 1000).round(2)} km" %>
         </td>
       </tr>
     <%- end %>

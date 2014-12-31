@@ -5,6 +5,12 @@ class DashboardController < ApplicationController
 
   def leaderboard
     @users = User.all
+
+    @totals = {}
+
+    @users.each do |user|
+      @totals[user] = user.activities.runs.c2014.inject(0) { |sum, act| sum + act['distance'] }
+    end
   end
 
   def graph
