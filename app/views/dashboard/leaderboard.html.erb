@@ -10,7 +10,7 @@ $(function () {
         xAxis: {
             type: 'datetime',
             dateTimeLabelFormats: {
-                week: '%e. %b'
+                week: '%e. %b',
             }
         },
         yAxis: {
@@ -18,6 +18,13 @@ $(function () {
                 text: 'Distance (km)'
             },
             min: 0
+        },
+        plotOptions: {
+          series: {
+            marker: {
+              enabled: false,
+            }
+          }
         },
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
