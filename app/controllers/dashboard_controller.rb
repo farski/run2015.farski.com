@@ -12,6 +12,10 @@ class DashboardController < ApplicationController
 
       activities = user.activities.runs.p2015.order(start_date: :asc)
 
+      if params[:y] == '2014'
+        activities = user.activities.runs.c2014.order(start_date: :asc)
+      end
+
       for activity in activities
         distance_t += (activity[:distance] / 1000)
 
