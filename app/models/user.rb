@@ -10,10 +10,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
 
-   def self.find_for_oauth(auth)
-     find_or_create_by(uid: auth.uid, provider: auth.provider)
-   end
-
   def self.find_for_oauth(auth, signed_in_resource = nil)
     user = find_by(uid: auth.uid, provider: auth.provider)
 
