@@ -1,0 +1,58 @@
+<script charset="utf-8">
+$(function () {
+    $('#graph').highcharts({
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                week: '%e. %b',
+            }
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            min: 0
+        },
+        plotOptions: {
+          series: {
+            marker: {
+              enabled: false,
+            }
+          }
+        },
+        tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x:%b %e}: {point.y:.2f} km'
+        },
+        series: [<%=raw @series %>]
+    });
+});
+</script>
+
+<style media="screen">
+  .highcharts-background {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  text[text-anchor="end"] {
+    display: none;
+  }
+
+  .highcharts-yaxis-title {
+    color: rgba(98, 72, 29, 0.7)!important;
+    fill: rgba(98, 72, 29, 0.7)!important;
+    font-family: 'Roboto', sans-serif;
+  }
+</style>
+
+<main>
+  <h2>PRESEASON DEPTH CHART</h2>
+
+  <div id="graph" style="width: 70%; min-width: 320px; height: 80vh;"></div>
+</main>

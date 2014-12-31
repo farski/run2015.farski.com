@@ -4,6 +4,10 @@ class DashboardController < ApplicationController
   end
 
   def leaderboard
+    @users = User.all
+  end
+
+  def graph
     foo = []
 
     for user in User.all

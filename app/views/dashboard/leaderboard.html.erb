@@ -1,58 +1,30 @@
-<script charset="utf-8">
-$(function () {
-    $('#graph').highcharts({
-        chart: {
-            type: 'spline'
-        },
-        title: {
-            text: ''
-        },
-        xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: {
-                week: '%e. %b',
-            }
-        },
-        yAxis: {
-            title: {
-                text: ''
-            },
-            min: 0
-        },
-        plotOptions: {
-          series: {
-            marker: {
-              enabled: false,
-            }
-          }
-        },
-        tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%b %e}: {point.y:.2f} km'
-        },
-        series: [<%=raw @series %>]
-    });
-});
-</script>
-
 <style media="screen">
-  .highcharts-background {
-    fill: rgba(0, 0, 0, 0);
+  table {
+
   }
 
-  text[text-anchor="end"] {
-    display: none;
+  td:first-child {
+    text-align: right;
+    padding-right: 20px;
   }
 
-  .highcharts-yaxis-title {
-    color: rgba(98, 72, 29, 0.7)!important;
-    fill: rgba(98, 72, 29, 0.7)!important;
-    font-family: 'Roboto', sans-serif;
+  td:last-child {
+    text-align: left;
+    padding-left: 20px;
   }
 </style>
 
 <main>
-  <h2>PRESEASON DEPTH CHART</h2>
-
-  <div id="graph" style="width: 70%; min-width: 320px; height: 80vh;"></div>
+  <table>
+    <%- for user in @users %>
+      <tr>
+        <td>
+          <%= "#{user.forename} #{user.surname[0]}" %>
+        </td>
+        <td>
+          154 km
+        </td>
+      </tr>
+    <%- end %>
+  </table>
 </main>
