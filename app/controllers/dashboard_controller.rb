@@ -51,7 +51,7 @@ class DashboardController < ApplicationController
         data << "[Date.UTC(#{y}, #{m}, #{d}), #{distance_t.round(2)}]"
       end
 
-      obj = "{name: '#{user.forename} #{user.surname[0]}', data: [#{data.join(',')}]}"
+      obj = "{name: '#{user.forename.capitalize} #{user.surname[0].capitalize}', data: [#{data.join(',')}]}"
 
       if data.last
         avg = distance_t / t_elapsed
