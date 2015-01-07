@@ -22,7 +22,10 @@ option = {
         subtext: 'subtext'
     },
     tooltip : {
-        trigger: 'axis'
+        trigger: 'axis',
+        formatter : function (params) {
+          return '' + params.seriesName + ': ' + params.value[1];
+        }
     },
     legend: {
         data:[<%= raw @legend_data %>]
