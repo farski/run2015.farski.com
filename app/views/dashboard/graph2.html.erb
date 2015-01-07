@@ -1,0 +1,67 @@
+<script type="text/javascript">
+        // configure for module loader
+        require.config({
+            paths: {
+                echarts: '/javascripts'
+            }
+        });
+
+        // use
+        require(
+            [
+                'echarts',
+                'echarts/chart/line' // require the specific chart type
+            ],
+            function (ec) {
+                // Initialize after dom ready
+                var myChart = ec.init(document.getElementById('graph'), 'macarons');
+
+option = {
+    title : {
+        text: 'text',
+        subtext: 'subtext'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:[<%= raw @legend_data %>]
+    },
+    toolbox: {
+        show : false
+    },
+    dataZoom: {
+        show: true,
+        start : 0,
+        end : <%= raw @data_zoom_end %>
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'time',
+            splitNumber: 10
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value}km'
+            }
+        }
+    ],
+    series : <%= raw @series %>
+};
+
+
+                // Load data into the ECharts instance
+                myChart.setOption(option);
+            }
+        );
+    </script>
+
+<main>
+  <h2>PRESEASON DEPTH CHART</h2>
+
+  <div id="graph" style="width: 70%; min-width: 320px; height: 80vh;"></div>
+</main>

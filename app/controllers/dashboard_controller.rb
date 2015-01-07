@@ -13,6 +13,73 @@ class DashboardController < ApplicationController
     end
   end
 
+  def graph2
+    if params[:y] == '2014'
+      start_date = Time.new(2014, 5, 5)
+      end_date = Time.new(2014, 9, 13)
+    else
+      # Preseason
+      start_date = Time.new(2014, 12, 1)
+      end_date = Time.new(2015, 5, 1)
+      # Regular season
+      # start_date = Time.new(2015, 5, 1)
+      # end_date = Time.new(2015, 10, 1)
+    end
+
+    now = Time.now
+    t_total = end_date - start_date
+    t_remaining = end_date - now
+    t_elapsed = now - start_date
+
+    progress = t_elapsed / t_total
+    _data_zoom_end = progress * 100 + 10
+    @data_zoom_end = _data_zoom_end > 100 ? 100 : _data_zoom_end
+
+    @_legend_data = []
+    @_series = []
+
+    for user in User.all
+      @_legend_data << "'#{user.forename.capitalize} #{user.surname[0].capitalize}'"
+
+      _series_data = []
+      distance_t = 0
+
+      activities = user.activities.runs.p2015.order(start_date: :asc)
+
+      if params[:y] == '2014'
+        activities = user.activities.runs.c2014.order(start_date: :asc)
+      end
+
+      for activity in activities
+        distance_t += (activity[:distance] / 1000)
+
+        y = activity[:start_date].year
+        m = activity[:start_date].month - 1
+        d = activity[:start_date].day
+        _series_data << "[new Date(#{y}, #{m}, #{d}), #{distance_t.round(2)}]"
+      end
+
+      series_data = "[#{_series_data.join(',')}]"
+
+      series_obj = '{'
+      series_obj += "name:'#{user.forename.capitalize} #{user.surname[0].capitalize}', "
+      series_obj += "type:'line', "
+      series_obj += "data: #{series_data}"
+      series_obj += '}'
+
+      @_series << series_obj
+    end
+
+    @legend_data = @_legend_data.join(',')
+    @series = "[#{@_series.join(',')}]"
+  end
+
+
+
+
+
+
+
   def graph
     _series = []
 
