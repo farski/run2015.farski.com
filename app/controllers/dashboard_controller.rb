@@ -56,7 +56,9 @@ class DashboardController < ApplicationController
         y = activity[:start_date].year
         m = activity[:start_date].month - 1
         d = activity[:start_date].day
-        _series_data << "[new Date(#{y}, #{m}, #{d}), #{distance_t.round(2)}]"
+        h = activity[:start_date].hour
+        n = activity[:start_date].minute
+        _series_data << "[new Date(#{y}, #{m}, #{d}, #{h}, #{n}), #{distance_t.round(2)}]"
       end
 
       series_data = "[#{_series_data.join(',')}]"
