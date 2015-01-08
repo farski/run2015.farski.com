@@ -75,6 +75,7 @@ class DashboardController < ApplicationController
       series_obj = '{'
       series_obj += "name:'#{user.forename.capitalize} #{user.surname[0].capitalize}', "
       series_obj += "type:'line', "
+      series_obj += "symbol: 'none', "
       series_obj += "data: #{series_data}"
       series_obj += '}'
 
