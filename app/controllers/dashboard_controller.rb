@@ -61,6 +61,15 @@ class DashboardController < ApplicationController
         _series_data << "[new Date(#{y}, #{m}, #{d}, #{h}, #{n}), #{distance_t.round(2)}]"
       end
 
+      y = end_date.year
+      m = end_date.month - 1
+      d = end_date.day
+      h = 23
+      n = 59
+      avg = distance_t / t_elapsed
+      projected = (end_date - start_date) * avg
+      _series_data << "[new Date(#{y}, #{m}, #{d}, #{h}, #{n}), #{projected.round(2)}]"\
+
       series_data = "[#{_series_data.join(',')}]"
 
       series_obj = '{'
