@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
   end
 
   def graph
-    @users = User.all
+    @users = User.all.order('id ASC')
 
     if Time.now < Time.new(2015, 5, 1)
       # Preseason

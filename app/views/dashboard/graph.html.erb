@@ -45,13 +45,16 @@
 
         ]);
 
+        <%- projections = {} %>
+
         data.addRows([
           [
             new Date(<%= @end_date.to_i * 1000 %>),
 
             <%- for user in @users %>
               <%- avg = totals[user.id] / @elapsed %>
-              <%= avg * @duration %>,
+              <%- projections[user.id] = avg * @duration %>
+              <%= projections[user.id] %>,
             <%- end %>
           ]
         ]);
@@ -106,9 +109,85 @@
       svg > rect:first-of-type {
         fill: rgba(0, 0, 0, 0);
       }
+
+      #leaderboard {
+        width: 100%;
+        padding: 0 70px;
+      }
+
+      #leaderboard ol {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      #leaderboard li {
+        margin: 6px 13px;
+        border: 0;
+        padding: 0 0 0 4px;
+        border-left-width: 13px;
+        border-left-style: solid;
+      }
+
+      #leaderboard li#u1 { border-left-color: rgb(66, 133, 244); }
+      #leaderboard li#u2 { border-left-color: rgb(219, 68, 55); }
+      #leaderboard li#u3 { border-left-color: rgb(244, 180, 0); }
+      #leaderboard li#u4 { border-left-color: rgb(15, 157, 88); }
+      #leaderboard li#u5 { border-left-color: rgb(171, 71, 188); }
+      #leaderboard li#u6 { border-left-color: rgb(0, 172, 193); }
+      #leaderboard li#u7 { border-left-color: rgb(255, 112, 67); }
+      #leaderboard li#u8 { border-left-color: rgb(158, 157, 36); }
+      #leaderboard li#u9 { border-left-color: rgb(92, 107, 192); }
+
+      #leaderboard h4,
+      #leaderboard h5,
+      #leaderboard h6 {
+        display: inline-block;
+        font-weight: normal;
+        font-family: Roboto;
+        color: rgb(117, 117, 117);
+        font-size: 13px;
+        margin: 0;
+        border: 0;
+        padding: 0;
+      }
+
+      #leaderboard h4 {
+        font-weight: bold;
+      }
+      #leaderboard h4::after {
+        content: ':';
+      }
+
+      #leaderboard h5 {
+
+      }
+
+      #leaderboard h6 {
+        opacity: 0.6;
+      }
     </style>
 
     <main>
+      <div id="leaderboard">
+        <h2>Total + Projections</h2>
+        <ol>
+          <%- sort = totals.sort_by {|id, value| value} %>
+
+          <%- sort.reverse.each do |s| %>
+          <%- u = User.find(s[0]) %>
+          <li id="u<%=u.id%>">
+            <h4><%= "#{u.forename.capitalize} #{u.surname[0].capitalize}" %></h4>
+            <h5><%= s[1].round(2) %>km</h5>
+            <h6>(<%= projections[s[0]].round(2) %>km)</h6>
+          </li>
+          <%- end %>
+        </ol>
+      </div>
       <div id="dashboard">
         <div id="chart"></div>
         <div id="filter"></div>
