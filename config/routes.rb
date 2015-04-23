@@ -4,8 +4,6 @@ Rails.application.routes.draw do
   get 'roster' => 'dashboard#athletes'
   get 'leaderboard' => 'dashboard#leaderboard'
   get 'graph' => 'dashboard#graph'
-  get 'graph2' => 'dashboard#graph2'
-  get 'graph3' => 'dashboard#graph3'
 
   resources :users, :activities
 

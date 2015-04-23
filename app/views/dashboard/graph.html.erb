@@ -1,58 +1,118 @@
-<script charset="utf-8">
-$(function () {
-    $('#graph').highcharts({
-        chart: {
-            type: 'spline'
-        },
-        title: {
-            text: ''
-        },
-        xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: {
-                week: '%e. %b',
-            }
-        },
-        yAxis: {
-            title: {
-                text: ''
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1.1', {'packages':['controls']});
+      google.setOnLoadCallback(drawDashboard);
+
+      function drawDashboard() {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('datetime', 'Date');
+
+        <%- totals = {} %>
+
+        <%- for user in @users %>
+          <%- totals[user.id] = 0 %>
+          data.addColumn('number', '<%= "#{user.forename.capitalize} #{user.surname[0].capitalize}" %>');
+        <%- end %>
+
+        data.addRows([
+          [
+            new Date(<%= @start_date.to_i * 1000 %>),
+
+            <%- for user in @users %>
+              0,
+            <%- end %>
+          ]
+        ]);
+
+        data.addRows([
+
+          <%- @timestamps.keys.sort.each do |timestamp| %>
+            <%- data = @timestamps[timestamp] %>
+            [
+              new Date(<%= timestamp * 1000 %>),
+
+              <%- for user in @users %>
+                <%- delta = data[user.id] || 0 %>
+                <%- totals[user.id] += delta %>
+                <%= totals[user.id] %>,
+              <%- end %>
+            ],
+          <%- end %>
+
+        ]);
+
+        data.addRows([
+          [
+            new Date(<%= @end_date.to_i * 1000 %>),
+
+            <%- for user in @users %>
+              <%- avg = totals[user.id] / @elapsed %>
+              <%= avg * @duration %>,
+            <%- end %>
+          ]
+        ]);
+
+        // Create a range slider, passing some options
+        var filter = new google.visualization.ControlWrapper({
+          controlType: 'ChartRangeFilter',
+          containerId: 'filter',
+          state: {
+            range: {
+              start: new Date(<%= @start_date.to_i * 1000 %>),
+              end: new Date(<%= Time.now.to_i * 1000 %>)
             },
-            min: 0
-        },
-        plotOptions: {
-          series: {
-            marker: {
-              enabled: false,
-            }
+          },
+          options: {
+            filterColumnIndex: 0,
           }
-        },
-        tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%b %e}: {point.y:.2f} km'
-        },
-        series: [<%=raw @series %>]
-    });
-});
-</script>
+        });
 
-<style media="screen">
-  .highcharts-background {
-    fill: rgba(0, 0, 0, 0);
-  }
+        // Create a pie chart, passing some options
+        var chart = new google.visualization.ChartWrapper({
+          chartType: 'Line',
+          containerId: 'chart',
+          options: {
+            height: 400,
+            width: '100%',
+            legend: {
+              position: 'none'
+            },
+          }
+        });
 
-  text[text-anchor="end"] {
-    display: none;
-  }
+        var dashboard = new google.visualization.Dashboard($('#dashboard'));
+        dashboard.bind(filter, chart);
+        dashboard.draw(data);
+      }
+    </script>
+  </head>
 
-  .highcharts-yaxis-title {
-    color: rgba(98, 72, 29, 0.7)!important;
-    fill: rgba(98, 72, 29, 0.7)!important;
-    font-family: 'Roboto', sans-serif;
-  }
-</style>
+  <body>
+    <style media="screen">
+      #dashboard {
+        width: 90%;
+        margin: 0 auto;
+      }
 
-<main>
-  <h2>PRESEASON DEPTH CHART</h2>
+      #filter {
+        height: 60px;
+      }
 
-  <div id="graph" style="width: 70%; min-width: 320px; height: 80vh;"></div>
-</main>
+      svg > g:first-of-type rect:first-of-type,
+      svg > rect:first-of-type {
+        fill: rgba(0, 0, 0, 0);
+      }
+    </style>
+
+    <main>
+      <div id="dashboard">
+        <div id="chart"></div>
+        <div id="filter"></div>
+      </div>
+    </main>
+  </body>
+</html>
