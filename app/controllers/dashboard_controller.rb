@@ -35,7 +35,7 @@ class DashboardController < ApplicationController
     # time : {uid: dist}
 
     for user in @users
-      activities = user.activities.runs.p2015.order(start_date: :asc)
+      activities = user.activities.runs.c2015.order(start_date: :asc)
 
       for activity in activities
         ms = activity.start_date.to_i
