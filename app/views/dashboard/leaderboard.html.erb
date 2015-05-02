@@ -1,6 +1,28 @@
 <style media="screen">
   table {
+    min-width: 40%;
+  }
 
+  tbody tr:first-child {
+    font-weight: bold;
+    font-size: 150%;
+  }
+
+  tbody tr:nth-child(2) { font-size: 140%; }
+  tbody tr:nth-child(3) { font-size: 134%; }
+  tbody tr:nth-child(4) { font-size: 129%; }
+  tbody tr:nth-child(5) { font-size: 122%; }
+  tbody tr:nth-child(6) { font-size: 118%; }
+  tbody tr:nth-child(7) { font-size: 110%; }
+  tbody tr:nth-child(8) { font-size: 103%; }
+
+  tbody tr:first-child td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  td {
+    text-align: center;
   }
 
   td:first-child {
@@ -9,22 +31,40 @@
   }
 
   td:last-child {
-    text-align: left;
-    padding-left: 20px;
+  }
+
+  @media (max-width: 600px) {
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4) {
+      display: none;
+    }
   }
 </style>
 
 <main>
   <table>
-    <%- for user in @users %>
+    <thead>
       <tr>
-        <td>
-          <%= "#{user.forename} #{user.surname[0]}" %>
-        </td>
-        <td>
-          <%= "#{(@totals[user] / 1000).round(2)} km" %>
-        </td>
+        <th></th>
+        <th>TOTAL</th>
+        <th>AVERAGE</th>
+        <th>PROJECTION</th>
       </tr>
-    <%- end %>
+    </thead>
+    <tbody>
+      <%- @totals.each do |key, value| %>
+        <%- user = User.find(key) %>
+        <%- avg = value / @elapsed %>
+        <%- projection = avg * @duration %>
+        <tr>
+          <td><%= "#{user.forename} #{user.surname[0]}" %></td>
+          <td><%= "#{(value / 1000).round(2)} km" %></td>
+          <td><%= "#{(avg * 100).round(2)} km" %></td>
+          <td><%= "#{(projection / 1000).round(2)} km" %></td>
+        </tr>
+      <%- end %>
+    </tbody>
   </table>
 </main>

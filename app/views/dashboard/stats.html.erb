@@ -1,0 +1,16 @@
+<main>
+  <table>
+    <tr>
+      <td>Total</td>
+      <td><%= "#{(@total / 1000).round(2)} km" %></td>
+    </tr>
+    <tr>
+      <td>Average</td>
+      <td><%= "#{(@average * 100).round(2)} km" %></td>
+    </tr>
+    <tr>
+      <td>Projected</td>
+      <td><%= "#{(@projection / 1000).round(2)} km" %></td>
+    </tr>
+  </table>
+</main>

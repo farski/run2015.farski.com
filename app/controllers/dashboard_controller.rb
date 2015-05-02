@@ -4,13 +4,28 @@ class DashboardController < ApplicationController
   end
 
   def leaderboard
-    @users = User.all
+    @totals = User.joins(:activities).group('"users"."id"').where(['"activities"."start_date_local" >= ?', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC").sum('"activities"."distance"')
 
-    @totals = {}
+    @start_date = Time.new(2015, 5, 1)
+    @end_date = Time.new(2015, 10, 1)
 
-    @users.each do |user|
-      @totals[user] = user.activities.runs.c2014.inject(0) { |sum, act| sum + act['distance'] }
-    end
+    @remaining = @end_date - Time.now
+    @elapsed = Time.now - @start_date
+    @duration = @end_date - @start_date
+  end
+
+  def stats
+    @start_date = Time.new(2015, 5, 1)
+    @end_date = Time.new(2015, 10, 1)
+
+    @remaining = @end_date - Time.now
+    @elapsed = Time.now - @start_date
+    @duration = @end_date - @start_date
+
+    @actitives = Activity.c2015.runs
+    @total = @actitives.sum(:distance)
+    @average = @total / @elapsed
+    @projection = @average * @duration
   end
 
   def graph
