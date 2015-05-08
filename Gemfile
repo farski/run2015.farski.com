@@ -40,6 +40,8 @@ gem 'omniauth-strava'
 
 gem 'strava-api-v3'
 
+gem 'slack-notifier'
+
 group :development, :test do
   gem 'sqlite3'
 
