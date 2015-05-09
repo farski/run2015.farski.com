@@ -1,200 +1,193 @@
-<html>
-  <head>
-    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load('visualization', '1.1', {'packages':['controls']});
-      google.setOnLoadCallback(drawDashboard);
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load('visualization', '1.1', {'packages':['controls']});
+  google.setOnLoadCallback(drawDashboard);
 
-      function drawDashboard() {
-        var data = new google.visualization.DataTable();
+  function drawDashboard() {
+    var data = new google.visualization.DataTable();
 
-        data.addColumn('datetime', 'Date');
+    data.addColumn('datetime', 'Date');
 
-        <%- totals = {} %>
+    <%- totals = {} %>
+
+    <%- for user in @users %>
+      <%- totals[user.id] = 0 %>
+      data.addColumn('number', '<%= "#{user.forename.capitalize} #{user.surname[0].capitalize}" %>');
+    <%- end %>
+
+    data.addRows([
+      [
+        new Date(<%= @start_date.to_i * 1000 %>),
 
         <%- for user in @users %>
-          <%- totals[user.id] = 0 %>
-          data.addColumn('number', '<%= "#{user.forename.capitalize} #{user.surname[0].capitalize}" %>');
+          0,
         <%- end %>
+      ]
+    ]);
 
-        data.addRows([
-          [
-            new Date(<%= @start_date.to_i * 1000 %>),
+    data.addRows([
 
-            <%- for user in @users %>
-              0,
-            <%- end %>
-          ]
-        ]);
+      <%- @timestamps.keys.sort.each do |timestamp| %>
+        <%- data = @timestamps[timestamp] %>
+        [
+          new Date(<%= timestamp * 1000 %>),
 
-        data.addRows([
-
-          <%- @timestamps.keys.sort.each do |timestamp| %>
-            <%- data = @timestamps[timestamp] %>
-            [
-              new Date(<%= timestamp * 1000 %>),
-
-              <%- for user in @users %>
-                <%- delta = data[user.id] || 0 %>
-                <%- totals[user.id] += delta %>
-                <%= totals[user.id] %>,
-              <%- end %>
-            ],
+          <%- for user in @users %>
+            <%- delta = data[user.id] || 0 %>
+            <%- totals[user.id] += delta %>
+            <%= totals[user.id] %>,
           <%- end %>
+        ],
+      <%- end %>
 
-        ]);
+    ]);
 
-        <%- projections = {} %>
+    <%- projections = {} %>
 
-        data.addRows([
-          [
-            new Date(<%= @end_date.to_i * 1000 %>),
+    data.addRows([
+      [
+        new Date(<%= @end_date.to_i * 1000 %>),
 
-            <%- for user in @users %>
-              <%- avg = totals[user.id] / @elapsed %>
-              <%- projections[user.id] = avg * @duration %>
-              <%= projections[user.id] %>,
-            <%- end %>
-          ]
-        ]);
+        <%- for user in @users %>
+          <%- avg = totals[user.id] / @elapsed %>
+          <%- projections[user.id] = avg * @duration %>
+          <%= projections[user.id] %>,
+        <%- end %>
+      ]
+    ]);
 
-        // Create a range slider, passing some options
-        var filter = new google.visualization.ControlWrapper({
-          controlType: 'ChartRangeFilter',
-          containerId: 'filter',
-          state: {
-            range: {
-              start: new Date(<%= @start_date.to_i * 1000 %>),
-              end: new Date(<%= Time.now.to_i * 1000 %>)
-            },
-          },
-          options: {
-            filterColumnIndex: 0,
-          }
-        });
-
-        // Create a pie chart, passing some options
-        var chart = new google.visualization.ChartWrapper({
-          chartType: 'Line',
-          containerId: 'chart',
-          options: {
-            height: 400,
-            width: '100%',
-            legend: {
-              position: 'none'
-            },
-          }
-        });
-
-        var dashboard = new google.visualization.Dashboard($('#dashboard'));
-        dashboard.bind(filter, chart);
-        dashboard.draw(data);
+    // Create a range slider, passing some options
+    var filter = new google.visualization.ControlWrapper({
+      controlType: 'ChartRangeFilter',
+      containerId: 'filter',
+      state: {
+        range: {
+          start: new Date(<%= @start_date.to_i * 1000 %>),
+          end: new Date(<%= Time.now.to_i * 1000 %>)
+        },
+      },
+      options: {
+        filterColumnIndex: 0,
       }
-    </script>
-  </head>
+    });
 
-  <body>
-    <style media="screen">
-      #dashboard {
-        width: 90%;
-        margin: 0 auto;
+    // Create a pie chart, passing some options
+    var chart = new google.visualization.ChartWrapper({
+      chartType: 'Line',
+      containerId: 'chart',
+      options: {
+        height: 400,
+        width: '100%',
+        legend: {
+          position: 'none'
+        },
       }
+    });
 
-      #filter {
-        height: 60px;
-      }
+    var dashboard = new google.visualization.Dashboard($('#dashboard'));
+    dashboard.bind(filter, chart);
+    dashboard.draw(data);
+  }
+</script>
 
-      svg > g:first-of-type rect:first-of-type,
-      svg > rect:first-of-type {
-        fill: rgba(0, 0, 0, 0);
-      }
+<style media="screen">
+  #dashboard {
+    width: 90%;
+    margin: 0 auto;
+  }
 
-      #leaderboard {
-        width: 100%;
-        padding: 0 70px;
-      }
+  #filter {
+    height: 60px;
+  }
 
-      #leaderboard ol {
-        margin: 0;
-        border: 0;
-        padding: 0;
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+  svg > g:first-of-type rect:first-of-type,
+  svg > rect:first-of-type {
+    fill: rgba(0, 0, 0, 0);
+  }
 
-      #leaderboard li {
-        margin: 6px 13px;
-        border: 0;
-        padding: 0 0 0 4px;
-        border-left-width: 13px;
-        border-left-style: solid;
-      }
+  #leaderboard {
+    width: 100%;
+    padding: 0 70px;
+  }
 
-      #leaderboard li#u1 { border-left-color: rgb(66, 133, 244); }
-      #leaderboard li#u2 { border-left-color: rgb(219, 68, 55); }
-      #leaderboard li#u3 { border-left-color: rgb(244, 180, 0); }
-      #leaderboard li#u4 { border-left-color: rgb(15, 157, 88); }
-      #leaderboard li#u5 { border-left-color: rgb(171, 71, 188); }
-      #leaderboard li#u6 { border-left-color: rgb(0, 172, 193); }
-      #leaderboard li#u7 { border-left-color: rgb(255, 112, 67); }
-      #leaderboard li#u8 { border-left-color: rgb(158, 157, 36); }
-      #leaderboard li#u9 { border-left-color: rgb(92, 107, 192); }
-      #leaderboard li#u10 { border-left-color: rgb(240, 98, 146); }
-      #leaderboard li#u11 { border-left-color: rgb(0, 121, 107); }
-      #leaderboard li#u12 { border-left-color: rgb(194, 24, 91); }
+  #leaderboard ol {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-      #leaderboard h4,
-      #leaderboard h5,
-      #leaderboard h6 {
-        display: inline-block;
-        font-weight: normal;
-        font-family: Roboto;
-        color: rgb(117, 117, 117);
-        font-size: 13px;
-        margin: 0;
-        border: 0;
-        padding: 0;
-      }
+  #leaderboard li {
+    margin: 6px 13px;
+    border: 0;
+    padding: 0 0 0 4px;
+    border-left-width: 13px;
+    border-left-style: solid;
+  }
 
-      #leaderboard h4 {
-        font-weight: bold;
-      }
-      #leaderboard h4::after {
-        content: ':';
-      }
+  #leaderboard li#u1 { border-left-color: rgb(66, 133, 244); }
+  #leaderboard li#u2 { border-left-color: rgb(219, 68, 55); }
+  #leaderboard li#u3 { border-left-color: rgb(244, 180, 0); }
+  #leaderboard li#u4 { border-left-color: rgb(15, 157, 88); }
+  #leaderboard li#u5 { border-left-color: rgb(171, 71, 188); }
+  #leaderboard li#u6 { border-left-color: rgb(0, 172, 193); }
+  #leaderboard li#u7 { border-left-color: rgb(255, 112, 67); }
+  #leaderboard li#u8 { border-left-color: rgb(158, 157, 36); }
+  #leaderboard li#u9 { border-left-color: rgb(92, 107, 192); }
+  #leaderboard li#u10 { border-left-color: rgb(240, 98, 146); }
+  #leaderboard li#u11 { border-left-color: rgb(0, 121, 107); }
+  #leaderboard li#u12 { border-left-color: rgb(194, 24, 91); }
 
-      #leaderboard h5 {
+  #leaderboard h4,
+  #leaderboard h5,
+  #leaderboard h6 {
+    display: inline-block;
+    font-weight: normal;
+    font-family: Roboto;
+    color: rgb(117, 117, 117);
+    font-size: 13px;
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
 
-      }
+  #leaderboard h4 {
+    font-weight: bold;
+  }
+  #leaderboard h4::after {
+    content: ':';
+  }
 
-      #leaderboard h6 {
-        opacity: 0.6;
-      }
-    </style>
+  #leaderboard h5 {
 
-    <main>
-      <div id="leaderboard">
-        <h2>Total + Projections</h2>
-        <ol>
-          <%- sort = totals.sort_by {|id, value| value} %>
+  }
 
-          <%- sort.reverse.each do |s| %>
-          <%- u = User.find(s[0]) %>
-          <li id="u<%=u.id%>">
-            <h4><%= "#{u.forename.capitalize} #{u.surname[0].capitalize}" %></h4>
-            <h5><%= s[1].round(2) %>km</h5>
-            <h6>(<%= projections[s[0]].round(2) %>km)</h6>
-          </li>
-          <%- end %>
-        </ol>
-      </div>
-      <div id="dashboard">
-        <div id="chart"></div>
-        <div id="filter"></div>
-      </div>
-    </main>
-  </body>
-</html>
+  #leaderboard h6 {
+    opacity: 0.6;
+  }
+</style>
+
+<main>
+  <div id="leaderboard">
+    <h2>Total + Projections</h2>
+    <ol>
+      <%- sort = totals.sort_by {|id, value| value} %>
+
+      <%- sort.reverse.each do |s| %>
+      <%- u = User.find(s[0]) %>
+      <li id="u<%=u.id%>">
+        <h4><%= "#{u.forename.capitalize} #{u.surname[0].capitalize}" %></h4>
+        <h5><%= s[1].round(2) %>km</h5>
+        <h6>(<%= projections[s[0]].round(2) %>km)</h6>
+      </li>
+      <%- end %>
+    </ol>
+  </div>
+  <div id="dashboard">
+    <div id="chart"></div>
+    <div id="filter"></div>
+  </div>
+</main>
