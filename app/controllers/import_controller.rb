@@ -2,7 +2,8 @@ class ImportController < ApplicationController
   def update
     @activities = Import.import
 
-    notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
+    notifier1 = Slack::Notifier.new(ENV['SLACK_PRX_WEBHOOK_URL'])
+    notifier2 = Slack::Notifier.new(ENV['SLACK_REHEY_WEBHOOK_URL'])
 
     activities = @activities
 
@@ -35,7 +36,8 @@ class ImportController < ApplicationController
         }
       end
 
-      notifier.ping '', attachments: attachments
+      notifier1.ping '', attachments: attachments
+      notifier2.ping '', attachments: attachments
     end
   end
 end
