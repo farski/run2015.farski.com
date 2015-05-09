@@ -38,6 +38,8 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-strava'
 
+gem 'd3_rails', '~> 3.5.5'
+
 gem 'strava-api-v3'
 
 gem 'slack-notifier'

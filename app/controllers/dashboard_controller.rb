@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   end
 
   def leaderboard
-    @totals = User.joins(:activities).group('"users"."id"').where(['"activities"."start_date_local" >= ?', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC").sum('"activities"."distance"')
+    @users = User.ranked
 
     @start_date = Time.new(2015, 5, 1)
     @end_date = Time.new(2015, 10, 1)
