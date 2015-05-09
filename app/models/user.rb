@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     @ranked ||= User.select('"users".*, SUM("activities"."distance") AS sum_activities_distance').joins(:activities).group('"users"."id"').where(['"activities"."start_date_local" >= ?', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC")
   end
 
+  def ranking
+    (User.ranked.map(&:id).index(id) + 1)
+  end
+
   def total
     @total ||= activities.c2015.sum('distance')
   end
