@@ -54,13 +54,13 @@
       </tr>
     </thead>
     <tbody>
-      <%- @totals.each do |key, value| %>
-        <%- user = User.find(key) %>
-        <%- avg = value / @elapsed %>
+      <%- for user in @users %>
+        <%- total = user.total %>
+        <%- avg = total / @elapsed %>
         <%- projection = avg * @duration %>
         <tr>
           <td><%= "#{user.forename} #{user.surname[0]}" %></td>
-          <td><%= "#{(value / 1000).round(2)} km" %></td>
+          <td><%= "#{(total / 1000).round(2)} km" %></td>
           <td><%= "#{(avg * 100).round(2)} km" %></td>
           <td><%= "#{(projection / 1000).round(2)} km" %></td>
         </tr>

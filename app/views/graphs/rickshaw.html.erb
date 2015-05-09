@@ -1,0 +1,12 @@
+<main>
+  <%= render partial: 'leaderboard', locals: { colors: @colors } %>
+  <div id="chart">
+    <div id="y-axis"></div>
+    <div id="graph"></div>
+    <div id="range"></div>
+    <div id="preview"></div>
+    <div id="legend"></div>
+  </div>
+</main>
+
+<%= render partial: 'rickshaw', locals: { start_date: @start_date, duration: @duration, colors: @colors } %>

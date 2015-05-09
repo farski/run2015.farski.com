@@ -1,0 +1,28 @@
+[
+  <%- @users.each_with_index do |user, i| %>
+    <%- total = 0 %>
+    {
+      color: '<%= colors[i] %>',
+      name: '<%= user.label %>',
+      data: [
+        <!-- Starting point (0) -->
+        { x: <%= @start_date.to_i %>, y: <%= total %> },
+
+        <!-- Activities -->
+        <%- activities = user.activities.c2015.order('start_date ASC') %>
+        <%- for activity in activities  %>
+          <%- total += activity.distance %>
+          { x: <%= activity.start_date.to_i %>, y: <%= total %> },
+        <%- end %>
+
+        <!-- Current total -->
+        { x: <%= Time.now.to_i %>, y: <%= total %> },
+
+        <!-- Projected total -->
+        <%- average = total / @elapsed %>
+        <%- projection = average * @duration %>
+        { x: <%= @end_date.to_i %>, y: <%= projection %> },
+      ]
+    },
+  <%- end %>
+]

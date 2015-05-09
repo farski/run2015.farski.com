@@ -28,4 +28,31 @@ class User < ActiveRecord::Base
 
     user
   end
+
+  def self.ranked
+    @ranked ||= User.select('"users".*, SUM("activities"."distance") AS sum_activities_distance').joins(:activities).group('"users"."id"').where(['"activities"."start_date_local" >= ?', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC")
+  end
+
+  def total
+    @total ||= activities.c2015.sum('distance')
+  end
+
+  def average
+    start_date = Time.new(2015, 5, 1)
+    elapsed = Time.now - start_date
+
+    (total / elapsed)
+  end
+
+  def projection
+    start_date = Time.new(2015, 5, 1)
+    end_date = Time.new(2015, 10, 1)
+    duration = end_date - start_date
+
+    (average * duration)
+  end
+
+  def label
+    "#{forename.capitalize} #{surname[0].capitalize}."
+  end
 end

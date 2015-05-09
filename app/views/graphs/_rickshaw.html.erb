@@ -1,0 +1,119 @@
+<script>
+  $(function () {
+    var graph = new Rickshaw.Graph({
+      element: document.querySelector("#graph"),
+      renderer: 'line',
+      interpolation: 'linear',
+      width: 780,
+      height: 450,
+      series: <%= render partial: 'rickshaw_data', locals: { colors: colors } %>,
+    });
+
+    var xAxis = new Rickshaw.Graph.Axis.Time({
+      graph: graph,
+    });
+
+    var yAxis = new Rickshaw.Graph.Axis.Y({
+      graph: graph,
+      orientation: 'left',
+      element: document.querySelector('#y-axis'),
+      tickFormat: function (n) {
+        if (n == 0) {
+          return '';
+        }
+
+        return (n / 1000) + "km";
+      },
+    });
+
+    var hoverDetail = new Rickshaw.Graph.HoverDetail({
+      graph: graph,
+      formatter: function (series, x, y) {
+        var meters = y;
+        var km = Math.round(y / 1000);
+
+        var elapsed = (x - <%= start_date.to_i %>);
+        var average = (y / elapsed);
+        var projection = Math.round((average * <%= duration %>) / 1000);
+
+        var h1 = "<h1>" + series.name + "</h1>";
+        var h2 = "<h2>" + km + "km</h2>";
+        var h3 = "<h3>" + projection + "km</h3>";
+
+        var content = [h1, h2, h3].join('');
+
+        return "<span class='hover-detail'>" + content + "</span>";
+      }
+    });
+
+    graph.render();
+
+    var range = new Rickshaw.Graph.RangeSlider({
+      graph: graph,
+      element: document.getElementById('range'),
+    });
+
+    setTimeout(function () {
+      var start = <%= start_date.to_i %>;
+      var now = <%= Time.now.to_i + 1 %>
+
+      graph.window.xMin = start;
+      graph.window.xMax = now;
+      graph.update();
+
+      $("#range").slider("option", "values", [start, now]);
+    }, 50);
+
+  });
+</script>
+
+<style>
+  #chart {
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  #graph {
+    position: relative;
+    left: 60px;
+    padding: 0 100px 0 0;
+  }
+
+  #legend {
+    float: right;
+    margin-left: 15px;
+  }
+
+  #y-axis {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+  }
+
+  #range {
+    margin-top: 12px;
+    margin-left: 60px;
+  }
+
+  .hover-detail {
+    display: block;
+    padding: 7px;
+  }
+
+  .hover-detail h1 {
+    font-weight: normal;
+    font-size: 14px;
+  }
+
+  .hover-detail h2 {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 4px 0;
+  }
+
+  .hover-detail h3 {
+    font-size: 11px;
+    opacity: 0.6;
+  }
+</style>

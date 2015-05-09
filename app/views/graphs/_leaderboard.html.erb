@@ -1,0 +1,69 @@
+<div id="leaderboard">
+  <h2>Total + Projections</h2>
+  <ol>
+    <%- for user in @users %>
+      <li>
+        <h4><%= user.label %></h4>
+        <h5><%= (user.total / 1000).round(2) %>km</h5>
+        <h6>(<%= (user.projection / 1000).round(2) %>km)</h6>
+      </li>
+    <%- end %>
+  </ol>
+</div>
+
+<style media="screen">
+  #leaderboard {
+    width: 100%;
+    padding: 0 70px;
+  }
+
+  #leaderboard ol {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #leaderboard li {
+    margin: 6px 13px;
+    border: 0;
+    padding: 0 0 0 4px;
+    border-left-width: 13px;
+    border-left-style: solid;
+  }
+
+  <%- colors.each_with_index do |color, i| %>
+    #leaderboard li:nth-of-type(<%= (i + 1) %>) { border-left-color: <%= color %>; }
+  <%- end %>
+
+  #leaderboard h4,
+  #leaderboard h5,
+  #leaderboard h6 {
+    display: inline-block;
+    font-weight: normal;
+    font-family: Roboto;
+    color: rgb(117, 117, 117);
+    font-size: 13px;
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+
+  #leaderboard h4 {
+    font-weight: bold;
+  }
+  #leaderboard h4::after {
+    content: ':';
+  }
+
+  #leaderboard h5 {
+
+  }
+
+  #leaderboard h6 {
+    opacity: 0.6;
+  }
+</style>
