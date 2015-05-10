@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def self.ranked
-    @ranked ||= User.select('"users".*, SUM("activities"."distance") AS sum_activities_distance').joins(:activities).group('"users"."id"').where(['"activities"."start_date_local" >= ?', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC")
+    User.select('"users".*, SUM("activities"."distance") AS sum_activities_distance').joins(:activities).group('"users"."id"').where(['"activities"."start_date_local" >= ?', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC")
   end
 
   def ranking
@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def total
-    @total ||= activities.c2015.sum('distance')
+    activities.c2015.sum('distance')
   end
 
   def average
