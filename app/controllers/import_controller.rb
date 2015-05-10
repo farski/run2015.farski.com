@@ -36,8 +36,8 @@ class ImportController < ApplicationController
         }
       end
 
-      # notifier1.ping '', attachments: attachments
-      # notifier2.ping '', attachments: attachments
+      notifier1.ping '', attachments: attachments
+      notifier2.ping '', attachments: attachments
     end
   end
 end
