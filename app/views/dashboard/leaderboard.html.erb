@@ -59,7 +59,7 @@
         <%- avg = total / @elapsed %>
         <%- projection = avg * @duration %>
         <tr>
-          <td><%= "#{user.forename} #{user.surname[0]}" %></td>
+          <td><%= user.label %></td>
           <td><%= "#{(total / 1000).round(2)} km" %></td>
           <td><%= "#{(avg * 100).round(2)} km" %></td>
           <td><%= "#{(projection / 1000).round(2)} km" %></td>

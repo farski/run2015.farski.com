@@ -2,7 +2,7 @@
   <ol class="members">
     <%- @athletes.each do |athlete| %>
       <li>
-        <%= "#{athlete.forename.capitalize} #{athlete.surname[0].capitalize}" %>
+        <%= athlete.label %>
       </li>
     <%- end %>
     <li>

@@ -21,7 +21,7 @@ class ImportController < ApplicationController
           color = "danger"
         end
 
-        name = "#{activity.user.forename} #{activity.user.surname[0]}."
+        name = activity.user.label
         link = "https://www.strava.com/activities/#{activity.strava_id}"
         km = (activity.distance / 1000).round(2)
         ranking = activity.user.ranking
