@@ -22,7 +22,7 @@ class DashboardController < ApplicationController
     @elapsed = Time.now - @start_date
     @duration = @end_date - @start_date
 
-    @actitives = Activity.c2015.runs
+    @actitives = Activity.c2015
     @total = @actitives.sum(:distance)
     @average = @total / @elapsed
     @projection = @average * @duration
@@ -50,7 +50,7 @@ class DashboardController < ApplicationController
     # time : {uid: dist}
 
     for user in @users
-      activities = user.activities.runs.c2015.order(start_date: :asc)
+      activities = user.activities.c2015.order(start_date: :asc)
 
       for activity in activities
         ms = activity.start_date.to_i
