@@ -29,15 +29,19 @@ class ImportController < ApplicationController
         moving_time = activity.moving_time
         duration = ActionController::Base.helpers.distance_of_time_in_words(Time.now, (Time.now + moving_time))
 
-        attachments << {
-          fallback: "#{name} just ran #{km}km in #{duration} and is in #{ranking.ordinalize} place.",
-          text: "#{name} just ran <#{link}|#{km}km> in #{duration} and is in #{ranking.ordinalize} place.",
-          color: color,
-        }
+        if activity.strava_type == 'Run'
+          attachments << {
+            fallback: "#{name} just ran #{km}km in #{duration} and is in #{ranking.ordinalize} place.",
+            text: "#{name} just ran <#{link}|#{km}km> in #{duration} and is in #{ranking.ordinalize} place.",
+            color: color,
+          }
+        end
       end
 
-      notifier1.ping '', attachments: attachments
-      notifier2.ping '', attachments: attachments
+      if !attachments.empty?
+        notifier1.ping '', attachments: attachments
+        notifier2.ping '', attachments: attachments
+      end
     end
   end
 end
