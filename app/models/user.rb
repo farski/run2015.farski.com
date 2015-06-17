@@ -41,11 +41,22 @@ class User < ActiveRecord::Base
     activities.c2015.sum('distance')
   end
 
+  def fortnight_total
+    activities.c2015.fortnight.sum('distance')
+  end
+
   def average
     start_date = Time.new(2015, 5, 1)
     elapsed = Time.now - start_date
 
     (total / elapsed)
+  end
+
+  def fortnight_average
+    start_date = 14.days.ago
+    elapsed = Time.now - start_date
+
+    (fortnight_total / elapsed)
   end
 
   def projection
@@ -54,6 +65,14 @@ class User < ActiveRecord::Base
     duration = end_date - start_date
 
     (average * duration)
+  end
+
+  def fortnight_projection
+    start_date = Time.new(2015, 5, 1)
+    end_date = Time.new(2015, 10, 1)
+    duration = end_date - start_date
+
+    (fortnight_average * duration)
   end
 
   def label
