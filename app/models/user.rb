@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
     end_date = Time.new(2015, 10, 1)
     duration = end_date - start_date
 
-    (fortnight_average * duration)
+    [(fortnight_average * duration), total].max
   end
 
   def label
