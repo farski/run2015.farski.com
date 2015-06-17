@@ -10,4 +10,6 @@ Rails.application.routes.draw do
 
   get 'import/update' => 'import#update'
   get 'update' => 'import#update'
+
+  get 'activities' => 'activities#index'
 end

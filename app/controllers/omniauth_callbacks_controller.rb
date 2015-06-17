@@ -20,6 +20,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def after_sign_in_path_for(resource)
-    url_for(controller: 'dashboard', action: 'athletes')
+    url_for(controller: 'dashboard', action: 'leaderboard')
   end
 end
