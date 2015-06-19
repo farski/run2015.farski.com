@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     activities.c2015.sum('distance')
   end
 
+  def total_time
+    activities.c2015.sum('moving_time')
+  end
+
   def fortnight_total
     activities.c2015.fortnight.sum('distance')
   end
@@ -50,6 +54,11 @@ class User < ActiveRecord::Base
     elapsed = Time.now - start_date
 
     (total / elapsed)
+  end
+
+  def average_speed
+    # In m/s
+    total / total_time
   end
 
   def fortnight_average

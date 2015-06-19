@@ -44,6 +44,8 @@ gem 'strava-api-v3'
 
 gem 'slack-notifier'
 
+gem 'periodic'
+
 group :development, :test do
   gem 'sqlite3'
 

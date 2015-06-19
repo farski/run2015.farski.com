@@ -53,6 +53,8 @@
         <th>PROJECTION</th>
         <th>14D.AVG</th>
         <th>14D.PROJ</th>
+        <th>TIME</th>
+        <th>AVG PACE</th>
       </tr>
     </thead>
     <tbody>
@@ -67,6 +69,8 @@
           <td><%= "#{(projection / 1000).round(2)} km" %></td>
           <td><%= "#{(user.fortnight_average * 100).round(2)} km" %></td>
           <td><%= "#{(user.fortnight_projection / 1000).round(2)} km" %></td>
+          <td><%= "#{(user.total_time / 3600).round} hr" %></td>
+          <td><%= "#{Periodic::Duration::Duration.new((16.667 / user.average_speed * 60).round()).format('!%m:!%s')}/km" %></td>
         </tr>
       <%- end %>
     </tbody>

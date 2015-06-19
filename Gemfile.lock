@@ -113,6 +113,7 @@ GEM
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
     orm_adapter (0.5.0)
+    periodic (1.2.2)
     pg (0.18.1)
     rack (1.6.1)
     rack-test (0.6.3)
@@ -207,6 +208,7 @@ DEPENDENCIES
   jquery-rails
   omniauth
   omniauth-strava
+  periodic
   pg
   rails (~> 4.2.0)
   rails_12factor
