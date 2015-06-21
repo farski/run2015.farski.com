@@ -23,6 +23,10 @@ class GraphsController < ApplicationController
       'rgb(0, 121, 107)',
       'rgb(194, 24, 91)',
       'rgb(255, 157, 0)',
+      'rgb(157, 157, 157)',
+      'rgb(0, 90, 120)',
+      'rgb(0, 157, 157)',
+      'rgb(255, 157, 0)',
     ]
   end
 end
