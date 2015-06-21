@@ -5,12 +5,24 @@
       <td><%= "#{(@total / 1000).round(2)} km" %></td>
     </tr>
     <tr>
-      <td>Average</td>
+      <td>Daily Average</td>
       <td><%= "#{(@average * 100).round(2)} km" %></td>
+    </tr>
+    <tr>
+      <td>Average Run</td>
+      <td><%= "#{((@total / @actitives.count) / 1000.0).round(2)} km" %></td>
     </tr>
     <tr>
       <td>Projected</td>
       <td><%= "#{(@projection / 1000).round(2)} km" %></td>
+    </tr>
+    <tr>
+      <td>Total Time</td>
+      <td><%= "#{(@total_time / 3600).round(2)} hours" %></td>
+    </tr>
+    <tr>
+      <td>Average Pace</td>
+      <td><%= "#{Periodic::Duration::Duration.new((16.667 / @average_speed * 60).round()).format('!%m:!%s')}/km" %></td>
     </tr>
   </table>
 </main>

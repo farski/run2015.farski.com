@@ -24,7 +24,9 @@ class DashboardController < ApplicationController
 
     @actitives = Activity.c2015
     @total = @actitives.sum(:distance)
+    @total_time = @actitives.sum(:moving_time)
     @average = @total / @elapsed
+    @average_speed = @total / @total_time
     @projection = @average * @duration
   end
 
