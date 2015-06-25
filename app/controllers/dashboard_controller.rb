@@ -18,6 +18,9 @@ class DashboardController < ApplicationController
     @start_date = Time.new(2015, 5, 1)
     @end_date = Time.new(2015, 10, 1)
 
+    @days = ((@end_date - @start_date) / 86400).round
+    @day = ((Time.now - @start_date) / 86400).round
+
     @remaining = @end_date - Time.now
     @elapsed = Time.now - @start_date
     @duration = @end_date - @start_date

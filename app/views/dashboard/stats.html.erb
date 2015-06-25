@@ -1,6 +1,10 @@
 <main>
   <table>
     <tr>
+      <td>Day</td>
+      <td><%= "#{@day} of #{@days} (#{((@day.to_f / @days) * 100).round}%)" %></td>
+    </tr>
+    <tr>
       <td>Total</td>
       <td><%= "#{(@total / 1000).round(2)} km" %></td>
     </tr>
