@@ -12,5 +12,7 @@ Rails.application.routes.draw do
   get 'update' => 'import#update'
 
   get 'activities' => 'activities#index'
-  get 'users' => 'users#index'
+
+  resources :users
+
 end

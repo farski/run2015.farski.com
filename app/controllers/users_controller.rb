@@ -6,12 +6,9 @@ class UsersController < ApplicationController
   end
 
   def show
-    client = ::Strava::Api::V3::Client.new(access_token: @user.token)
+    @activities = @user.runs.c2015.order(:start_date)
 
-    start2014 = 1399248000
-    end2014 = 1410566400
-
-    @activities2014 = client.list_athlete_activities(after: start2014, before: end2014, per_page: 200)
+    @avg_distance = @user.runs.c2015.average(:distance)
   end
 
   private

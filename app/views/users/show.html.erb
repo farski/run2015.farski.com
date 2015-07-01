@@ -1,20 +1,49 @@
-<%= "#{@user.surname}, #{@user.forename}" %>
-
-<table>
-  <%- for activity in @activities2014 %>
+<main>
+  <h3><%= @avg_distance %></h3>
+  <table width="100%">
     <tr>
-      <td>
-        <%= activity['athlete']['id'] %>
-      </td>
-      <td>
-        <%= activity['start_date'] %>
-      </td>
-      <td>
-        <%= activity['type'] %>
-      </td>
-      <td>
-        <%= activity['distance'] %>
-      </td>
+      <th>Date</th>
+      <th>Duration</th>
+      <th>Distance</th>
+      <th>Pace</th>
+      <th>Avg Dist Delta</th>
+      <th>Avg Dist Delta %</th>
+      <th>Adj Pace</th>
     </tr>
-  <%- end %>
-</table>
+    <%- for activity in @activities %>
+      <%- speed = (activity['distance'] / activity['moving_time']) %>
+      <%- pace = 16.667 / (activity['distance'] / activity['moving_time']) %>
+      <tr>
+        <td>
+          <%= activity['start_date'] %>
+        </td>
+        <td>
+          <%= (activity['moving_time'] / 60).round(2) %>
+        </td>
+        <td>
+          <%= activity['distance'] %>
+        </td>
+        <td>
+          <%= pace.round(2) %>
+        </td>
+        <td>
+          <%- dist_d = (activity['distance'] - @avg_distance).round %>
+          <%= dist_d %>
+        </td>
+        <td>
+          <%- dist_dp = (activity['distance'] / @avg_distance) - 1.0 %>
+          <%= "#{(dist_dp * 100.0).round(2)}%" %>
+        </td>
+        <td>
+          <%- if dist_d > 0 %>
+            <%- adj = (dist_d / 1000.0) %>
+            <%= adj %>
+            <%= (pace * adj).round(2) %>
+          <%- else %>
+            <%= pace.round(2) %>
+          <%- end %>
+        </td>
+      </tr>
+    <%- end %>
+  </table>
+</main>

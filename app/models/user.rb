@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   validates_presence_of :uid, :provider
   validates_uniqueness_of :uid, scope: :provider
 
+  default_scope { where.not(id: [17]) }
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -31,6 +33,10 @@ class User < ActiveRecord::Base
 
   def self.ranked
     User.select('"users".*, SUM("activities"."distance") AS sum_activities_distance').joins(:activities).group('"users"."id"').where(['"activities"."strava_type" = ? AND "activities"."start_date_local" >= ?', 'Run', Time.new(2015, 5, 1)]).where(['"activities"."start_date_local" < ?', Time.new(2015, 10, 1)]).where(%q|"activities"."strava_type" LIKE 'Run'|).order("sum_activities_distance DESC")
+  end
+
+  def runs
+    activities.runs
   end
 
   def ranking
