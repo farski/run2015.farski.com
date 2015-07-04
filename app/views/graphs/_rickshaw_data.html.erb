@@ -21,7 +21,7 @@
         <!-- Projected total -->
         <%- average = total / @elapsed %>
         <%- projection = average * @duration %>
-        { x: <%= @end_date.to_i %>, y: <%= projection %> },
+        { x: <%= @end_date.to_i %>, y: <%= user.fortnight_projection %> },
       ]
     },
   <%- end %>
