@@ -43,6 +43,16 @@ class User < ActiveRecord::Base
     (User.ranked.map(&:id).index(id) + 1)
   end
 
+  def sparklist
+    list = []
+    runs.c2015.order('start_date ASC').each do |run|
+      # list << ((run.distance / 1000) + list.last).to_i
+      list << (run.distance / 1000).to_i
+      # list << (run.distance / run.moving_time).to_f
+    end
+    list
+  end
+
   def total
     activities.c2015.sum('distance')
   end

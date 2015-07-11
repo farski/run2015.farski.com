@@ -34,6 +34,7 @@ class ImportController < ApplicationController
             fallback: "#{name} just ran #{km}km in #{duration} and is in #{ranking.ordinalize} place.",
             text: "#{name} just ran <#{link}|#{km}km> in #{duration} and is in #{ranking.ordinalize} place.",
             color: color,
+            thumb_url: "http://chart.googleapis.com/chart?cht=ls&chco=0077CC&chds=a&chs=75x20&chd=t:#{activity.user.sparklist.join(',')}"
           }
         end
       end
