@@ -93,11 +93,11 @@ class User < ActiveRecord::Base
   end
 
   def fortnight_projection
-    start_date = Time.new(2015, 5, 1)
+    start_date = Time.now
     end_date = Time.new(2015, 10, 1)
     duration = end_date - start_date
 
-    [(fortnight_average * duration), total].max
+    total + (fortnight_average * duration)
   end
 
   def label
