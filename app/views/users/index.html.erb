@@ -1,38 +1,46 @@
-<table>
-  <tr>
-    <th>
-      ID
-    </th>
-    <th>
-      Last Name
-    </th>
-    <th>
-      First Name
-    </th>
-    <th>
-      Email
-    </th>
-    <th>
-      UID
-    </th>
-  </tr>
-  <%- for user in @users %>
+<main>
+  <table>
     <tr>
-      <td>
-        <%= user.id %>
-      </td>
-      <td>
-        <%= user.surname %>
-      </td>
-      <td>
-        <%= user.forename %>
-      </td>
-      <td>
-        <%= user.email %>
-      </td>
-      <td>
-        <%= user.uid %>
-      </td>
+      <th>
+        ID
+      </th>
+      <th>
+        Enabled
+      </th>
+      <th>
+        Last Name
+      </th>
+      <th>
+        First Name
+      </th>
+      <th>
+        Email
+      </th>
+      <th>
+        UID
+      </th>
     </tr>
-  <%- end %>
-</table>
+    <%- for user in @users %>
+      <tr>
+        <td>
+          <%= user.id %>
+        </td>
+        <td>
+          <%= user.enabled? ? 'Y' : '' %>
+        </td>
+        <td>
+          <%= user.surname %>
+        </td>
+        <td>
+          <%= user.forename %>
+        </td>
+        <td>
+          <%= user.email %>
+        </td>
+        <td>
+          <%= user.uid %>
+        </td>
+      </tr>
+    <%- end %>
+  </table>
+</main>
