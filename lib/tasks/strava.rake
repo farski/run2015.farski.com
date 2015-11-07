@@ -4,4 +4,8 @@ namespace :strava do
     activities = Import.import
     puts "#{activities.count} new activities found"
   end
+
+  task :notify => :environment do
+    Relay.new.run
+  end
 end
