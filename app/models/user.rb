@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates_presence_of :uid, :provider
   validates_uniqueness_of :uid, scope: :provider
 
-  default_scope { where.not(id: [17]) }
+  default_scope { where(enabled: true) }
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
