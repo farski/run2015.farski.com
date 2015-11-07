@@ -1,3 +1,4 @@
 #!/bin/bash
 
 cd $OPENSHIFT_REPO_DIR && gem install bundler
+cd $OPENSHIFT_REPO_DIR && gem install rack -v 1.6.4
