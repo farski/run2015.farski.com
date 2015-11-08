@@ -24,7 +24,7 @@ class Activity < ActiveRecord::Base
 
     {
       fallback: "#{user.label} just ran #{km}km in #{duration_in_words}.",
-      text: "#{name} just ran <#{strava_url}|#{km}km> in #{duration_in_words}.",
+      text: "#{user.label} just ran <#{strava_url}|#{km}km> in #{duration_in_words}.",
       color: attachment_color,
       thumb_url: "http://chart.googleapis.com/chart?cht=ls&chco=0077CC&chds=a&chs=75x20&chd=t:#{user.sparklist.join(',')}"
     }
