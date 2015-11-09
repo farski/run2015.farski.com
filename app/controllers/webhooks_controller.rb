@@ -1,4 +1,6 @@
 class WebhooksController < ApplicationController
+  skip_before_action :verify_authenticity_token
+  
   def get
     mode = params['hub.mode']
     challenge = params['hub.challenge']
