@@ -13,6 +13,21 @@ class WebhooksController < ApplicationController
   end
 
   def post
+    # {
+    #   "subscription_id": "1",
+    #   "owner_id": 13408,
+    #   "object_id": 12312312312,
+    #   "object_type": "activity",
+    #   "aspect_type": "create",
+    #   "event_time": 1297286541
+    # }
 
+    update = JSON.parse(request.body.read)
+
+    if update['object_type'] = 'activity' && update['aspect_type'] == 'create'
+      render status: 200, text: update['event_time']
+    else
+      render status: 403, text: '403'
+    end
   end
 end
