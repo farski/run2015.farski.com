@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
   get 'activities' => 'activities#index'
 
+  get 'strava/webhook' => 'webhooks#get'
+  post 'strava/webhook' => 'webhooks#post'
+
   resources :users
 
 end
