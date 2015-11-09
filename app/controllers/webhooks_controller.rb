@@ -6,7 +6,7 @@ class WebhooksController < ApplicationController
     if token == '0809756ca4e9bac126e09e3613dfe665'
       render status: 200, text: challenge
     else
-      render status: 400
+      render status: 400, text: nil
     end
   end
 
