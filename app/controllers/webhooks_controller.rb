@@ -7,7 +7,7 @@ class WebhooksController < ApplicationController
     if mode != 'subscribe' || token != 'STRAVA'
       render status: 400, text: nil
     else
-      render status: 200, text: { "hub.challenge" => challenge }
+      render status: 200, json: { "hub.challenge" => challenge }
     end
   end
 
