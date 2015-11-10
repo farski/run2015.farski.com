@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   get 'strava/webhook' => 'webhooks#get'
   post 'strava/webhook' => 'webhooks#post'
+  get 'strava/subscriptions' => 'webhooks#subscriptions'
 
   resources :users
 

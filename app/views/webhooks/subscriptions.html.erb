@@ -1,0 +1,26 @@
+<main>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>State</th>
+      <th>App</th>
+      <th>Aspect</th>
+      <th>Object</th>
+      <th>URL</th>
+      <th>Created</th>
+      <th>Updated</th>
+    </tr>
+    <%- for subscription in @subscriptions %>
+      <tr>
+        <td><%= subscription['id'] %></td>
+        <td><%= subscription['resource_state'] %></td>
+        <td><%= subscription['application_id'] %></td>
+        <td><%= subscription['aspect_type'] %></td>
+        <td><%= subscription['object_type'] %></td>
+        <td><%= subscription['callback_url'] %></td>
+        <td><%= subscription['created_at'] %></td>
+        <td><%= subscription['updated_at'] %></td>
+      </tr>
+    <%- end %>
+  </table>
+</main>

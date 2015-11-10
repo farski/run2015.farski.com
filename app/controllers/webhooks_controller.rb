@@ -1,6 +1,12 @@
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def subscriptions
+    uri = URI.parse("https://api.strava.com/api/v3/push_subscriptions?client_id=#{ENV['STRAVA_CLIENT_ID']}&client_secret=#{ENV['STRAVA_CLINET_SECRET']}")
+    response = Net::HTTP.get_response(uri)
+    @subscriptions = JSON.parse(response.body)
+  end
+
   def get
     mode = params['hub.mode']
     challenge = params['hub.challenge']
