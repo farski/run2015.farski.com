@@ -1,9 +1,0 @@
-#!/bin/bash
-if [ ! -f $OPENSHIFT_DATA_DIR/last_run ]; then
-  touch $OPENSHIFT_DATA_DIR/last_run
-fi
-if [[ $(find $OPENSHIFT_DATA_DIR/last_run -mmin +3) ]]; then #run every 4 mins
-  rm -f $OPENSHIFT_DATA_DIR/last_run
-  touch $OPENSHIFT_DATA_DIR/last_run
-  cd $OPENSHIFT_REPO_DIR && bundle exec rake strava:pull
-fi

@@ -1,6 +1,6 @@
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
-  
+
   def get
     mode = params['hub.mode']
     challenge = params['hub.challenge']
@@ -27,7 +27,10 @@ class WebhooksController < ApplicationController
     update = JSON.parse(request.body.read)
 
     if update['object_type'] = 'activity' && update['aspect_type'] == 'create'
-      render status: 200, text: update['event_time']
+      activity = StravaClient.retrieve_an_activity(update['object_id'])
+      Notifier.post_activity(activity)
+
+      render status: 200, text: nil
     else
       render status: 403, text: '403'
     end
