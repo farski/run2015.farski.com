@@ -6,7 +6,7 @@ class WebhooksController < ApplicationController
     challenge = params['hub.challenge']
     token = params['hub.verify_token']
 
-    if mode != 'subscribe' || token != 'STRAVA28391873'
+    if mode != 'subscribe' || token != ENV['STRAVA_VERIFY_TOKEN']
       render status: 400, text: nil
     else
       render status: 200, json: { "hub.challenge" => challenge }
