@@ -39,6 +39,32 @@ class User < ActiveRecord::Base
     @client ||= ::Strava::Api::V3::Client.new(access_token: token)
   end
 
+  def score
+    _runs = runs.c2016.to_a
+    _runs.reduce(0) do |total, run|
+      base = 100
+      long = run.distance > 8000 ? 10 : 0
+      xlong = run.distance > 12800 ? 15 : 0
+
+      seven_days_ago = run.start_date - 7.days
+      week_runs = _runs.select {|r| r.start_date > seven_days_ago && r.start_date < run.start_date}
+      week = [20, ((20 / 6) * week_runs.count)].min
+
+      fourteen_days_ago = run.start_date - 14.days
+      fn_runs = _runs.select {|r| r.start_date > fourteen_days_ago && r.start_date < run.start_date}
+      fn = [30, ((30 / 12) * fn_runs.count)].min
+
+      month_ago = run.start_date - 30.days
+      mon_runs = _runs.select {|r| r.start_date > month_ago && r.start_date < run.start_date}
+      mon = [50, ((50 / 26) * mon_runs.count)].min
+
+      bonus = [long, xlong, week, fn, mon].reduce(:+)
+      bonus = [bonus, 100].min
+
+      [total, base, bonus].reduce(:+)
+    end
+  end
+
   def runs
     activities.runs
   end

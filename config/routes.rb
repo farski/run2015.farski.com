@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get 'activities' => 'activities#index'
 
+  get 'scores' => 'activities#scores'
+
   get 'strava/webhook' => 'webhooks#get'
   post 'strava/webhook' => 'webhooks#post'
   get 'strava/subscriptions' => 'webhooks#subscriptions'

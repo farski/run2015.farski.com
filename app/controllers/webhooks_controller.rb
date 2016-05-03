@@ -35,6 +35,25 @@ class WebhooksController < ApplicationController
       activity = StravaClient.retrieve_an_activity(update['object_id'])
       Notifier.post_activity(activity)
 
+      user = User.find_by(uid: "#{activity['athlete']['id']}")
+
+      if user
+        _activity = Activity.new(
+          user_id: user.id,
+          strava_id: activity['id'],
+          strava_type: activity['type'],
+          distance: activity['distance'],
+          moving_time: activity['moving_time'],
+          elapsed_time: activity['elapsed_time'],
+          start_date: activity['start_date'],
+          start_date_local: activity['start_date_local'],
+          timezone: activity['timezone'],
+          name: activity['name'],
+          description: activity['description'],
+        )
+        _activity.save!
+      end
+
       render status: 200, text: nil
     else
       render status: 403, text: '403'

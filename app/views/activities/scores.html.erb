@@ -1,0 +1,14 @@
+<main>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Score</th>
+    </tr>
+    <%- for user in @users %>
+      <tr>
+        <td><%= user.label %></td>
+        <td><%= user.score %></td>
+      </tr>
+    <%- end %>
+  </table>
+</main>

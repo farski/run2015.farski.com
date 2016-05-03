@@ -44,7 +44,7 @@
           <%= activity.name %>
         </td>
         <td>
-          <%= "#{activity.user.surname}, #{activity.user.forename}" %>
+          <%= activity.user.try(:label)  %>
         </td>
       </tr>
     <%- end %>
