@@ -35,7 +35,7 @@ class WebhooksController < ApplicationController
       activity = StravaClient.retrieve_an_activity(update['object_id'])
       Notifier.post_activity(activity)
 
-      user = User.find_by(uid: "#{activity['athlete']['id']}")
+      user = User.find_by(uid: "#{update['owner_id']}")
 
       if user
         _activity = Activity.new(
