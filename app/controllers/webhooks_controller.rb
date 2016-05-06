@@ -40,16 +40,16 @@ class WebhooksController < ApplicationController
       if user
         _activity = Activity.new(
           user_id: user.id,
-          strava_id: activity['id'],
-          strava_type: activity['type'],
-          distance: activity['distance'],
-          moving_time: activity['moving_time'],
-          elapsed_time: activity['elapsed_time'],
-          start_date: activity['start_date'],
-          start_date_local: activity['start_date_local'],
-          timezone: activity['timezone'],
-          name: activity['name'],
-          description: activity['description'],
+          strava_id: activity.strava_id,
+          strava_type: activity.strava_type,
+          distance: activity.distance,
+          moving_time: activity.moving_time,
+          elapsed_time: activity.data['elapsed_time'],
+          start_date: activity.data['start_date'],
+          start_date_local: activity.data['start_date_local'],
+          timezone: activity.data['timezone'],
+          name: activity.data['name'],
+          description: activity.data['description'],
         )
         _activity.save!
       end

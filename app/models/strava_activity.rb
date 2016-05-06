@@ -5,6 +5,10 @@ class StravaActivity
     @data = data
   end
 
+  def data
+    @data
+  end
+
   def user
     @user ||= StravaAthlete.new(data['athlete'])
   end
