@@ -39,34 +39,19 @@ class User < ActiveRecord::Base
     @client ||= ::Strava::Api::V3::Client.new(access_token: token)
   end
 
-  def score
-    _runs = runs.c2016.to_a
+  def score(scope = :c2016)
+    _runs = runs.try(scope).to_a
     _runs.reduce(0) do |total, run|
-      base = 100
-      long = run.distance > 8000 ? 10 : 0
-      xlong = run.distance > 12800 ? 15 : 0
-
-      seven_days_ago = run.start_date - 7.days
-      week_runs = _runs.select {|r| r.start_date > seven_days_ago && r.start_date < run.start_date}
-      week = [20, ((20 / 6) * week_runs.count)].min
-
-      fourteen_days_ago = run.start_date - 14.days
-      fn_runs = _runs.select {|r| r.start_date > fourteen_days_ago && r.start_date < run.start_date}
-      fn = [30, ((30 / 12) * fn_runs.count)].min
-
-      month_ago = run.start_date - 30.days
-      mon_runs = _runs.select {|r| r.start_date > month_ago && r.start_date < run.start_date}
-      mon = [50, ((50 / 26) * mon_runs.count)].min
-
-      bonus = [long, xlong, week, fn, mon].reduce(:+)
-      bonus = [bonus, 100].min
-
-      [total, base, bonus].reduce(:+)
+      [total, run.score].reduce(:+)
     end
   end
 
   def runs
     activities.runs
+  end
+
+  def mruns
+    @mruns ||= activities.runs.c2016
   end
 
   def ranking
@@ -75,7 +60,7 @@ class User < ActiveRecord::Base
 
   def sparklist
     list = []
-    runs.c2015.order('start_date ASC').each do |run|
+    runs.c2016.order('start_date ASC').each do |run|
       # list << ((run.distance / 1000) + list.last).to_i
       list << (run.distance / 1000).to_i
       # list << (run.distance / run.moving_time).to_f
@@ -84,22 +69,22 @@ class User < ActiveRecord::Base
   end
 
   def total
-    activities.c2015.sum('distance')
+    activities.c2016.sum('distance')
   end
 
   def total_time
-    activities.c2015.sum('moving_time')
+    activities.c2016.sum('moving_time')
   end
 
   def fortnight_total
-    activities.c2015.fortnight.sum('distance')
+    activities.c2016.fortnight.sum('distance')
   end
 
   def average
-    start_date = Time.new(2015, 5, 1)
+    start_date = Time.new(2016, 5, 1)
     elapsed = Time.now - start_date
 
-    (total / elapsed)
+    (score / elapsed)
   end
 
   def average_speed
@@ -115,8 +100,8 @@ class User < ActiveRecord::Base
   end
 
   def projection
-    start_date = Time.new(2015, 5, 1)
-    end_date = Time.new(2015, 10, 1)
+    start_date = Time.new(2016, 5, 1)
+    end_date = Time.new(2016, 10, 1)
     duration = end_date - start_date
 
     (average * duration)
@@ -124,7 +109,7 @@ class User < ActiveRecord::Base
 
   def fortnight_projection
     start_date = Time.now
-    end_date = Time.new(2015, 10, 1)
+    end_date = Time.new(2016, 10, 1)
     duration = end_date - start_date
 
     total + (fortnight_average * duration)

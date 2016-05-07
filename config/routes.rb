@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: 'dashboard#index'
 
   # get 'leaderboard' => 'dashboard#leaderboard'
-  # get 'graph' => 'graphs#rickshaw'
+  get 'graph' => 'graphs#rickshaw'
   # get 'stats' => 'dashboard#stats'
   get 'signup' => 'dashboard#index'
 

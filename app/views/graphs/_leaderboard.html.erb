@@ -4,8 +4,8 @@
     <%- for user in @users %>
       <li>
         <h4><%= user.label %></h4>
-        <h5><%= (user.total / 1000).round(2) %>km</h5>
-        <h6>(<%= (user.projection / 1000).round(2) %>km)</h6>
+        <h5><%= (user.score / 1.000).round(0) %>pts</h5>
+        <h6>(<%= (user.projection / 1.000).round(0) %>pts)</h6>
       </li>
     <%- end %>
   </ol>

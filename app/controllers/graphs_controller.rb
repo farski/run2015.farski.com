@@ -1,13 +1,13 @@
 class GraphsController < ApplicationController
   def rickshaw
-    @start_date = Time.new(2015, 5, 1)
-    @end_date = Time.new(2015, 10, 1)
+    @start_date = Time.new(2016, 5, 1)
+    @end_date = Time.new(2016, 10, 1)
 
     @remaining = @end_date - Time.now
     @elapsed = Time.now - @start_date
     @duration = @end_date - @start_date
 
-    @users = User.ranked
+    @users = User.all
 
     @colors = [
       'rgb(66, 133, 244)',

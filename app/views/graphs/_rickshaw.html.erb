@@ -22,7 +22,7 @@
           return '';
         }
 
-        return (n / 1000) + "km";
+        return n + "pts";
       },
     });
 
@@ -30,15 +30,15 @@
       graph: graph,
       formatter: function (series, x, y) {
         var meters = y;
-        var km = Math.round(y / 1000);
+        var km = Math.round(y);
 
         var elapsed = (x - <%= start_date.to_i %>);
         var average = (y / elapsed);
-        var projection = Math.round((average * <%= duration %>) / 1000);
+        var projection = Math.round((average * <%= duration %>));
 
         var h1 = "<h1>" + series.name + "</h1>";
-        var h2 = "<h2>" + km + "km</h2>";
-        var h3 = "<h3>" + projection + "km</h3>";
+        var h2 = "<h2>" + km + "pts</h2>";
+        var h3 = "<h3>" + projection + "pts</h3>";
 
         var content = [h1, h2, h3].join('');
 

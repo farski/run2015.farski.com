@@ -12,6 +12,29 @@ class Activity < ActiveRecord::Base
     @km ||= (distance / 1000).round(2)
   end
 
+  def score
+    base = 100
+    long = distance > 8000 ? 10 : 0
+    xlong = distance > 12800 ? 15 : 0
+
+    seven_days_ago = start_date - 7.days
+    week_runs = user.mruns.select {|r| r.start_date > seven_days_ago && r.start_date < start_date}
+    week = [20, ((20 / 6) * week_runs.count)].min
+
+    fourteen_days_ago = start_date - 14.days
+    fn_runs = user.mruns.select {|r| r.start_date > fourteen_days_ago && r.start_date < start_date}
+    fn = [30, ((30 / 12) * fn_runs.count)].min
+
+    month_ago = start_date - 30.days
+    mon_runs = user.mruns.select {|r| r.start_date > month_ago && r.start_date < start_date}
+    mon = [50, ((50 / 26) * mon_runs.count)].min
+
+    bonus = [long, xlong, week, fn, mon].reduce(:+)
+    bonus = [bonus, 100].min
+
+    [base, bonus].reduce(:+)
+  end
+
   def duration_in_words
     @duration_in_words ||= ActionController::Base.helpers.distance_of_time_in_words(Time.now, (Time.now + moving_time))
   end
