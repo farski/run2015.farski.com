@@ -14,6 +14,9 @@
         Distance
       </th>
       <th>
+        Time
+      </th>
+      <th>
         Date (UTC)
       </th>
       <th>
@@ -36,6 +39,9 @@
         </td>
         <td>
           <%= activity.distance.round(2) %>
+        </td>
+        <td>
+          <%= (activity.moving_time / 60).round(2) %>
         </td>
         <td>
           <%= activity.start_date %>
