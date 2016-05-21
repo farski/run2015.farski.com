@@ -3,12 +3,14 @@
     <tr>
       <th style="text-align: left;">Name</th>
       <th style="text-align: left;">2016</th>
+      <th style="text-align: left;">2016 KM</th>
       <th style="text-align: left;">2015</th>
     </tr>
     <%- for user in @users %>
       <tr>
         <td><%= user.label %></td>
         <td><%= user.score %></td>
+        <td><%= (user.total / 1000).round(2) %></td>
         <td><%= user.score(:c2015) %></td>
       </tr>
     <%- end %>
