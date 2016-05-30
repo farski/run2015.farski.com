@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   end
 
   def show
-    @activities = @user.runs.c2015.order(:start_date)
+    @activities = @user.runs.c2016.order(:start_date)
 
-    @avg_distance = @user.runs.c2015.average(:distance)
+    @avg_distance = @user.runs.c2016.average(:distance)
   end
 
   private

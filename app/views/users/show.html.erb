@@ -3,6 +3,7 @@
   <table width="100%">
     <tr>
       <th>Date</th>
+      <th>Points</th>
       <th>Duration</th>
       <th>Distance</th>
       <th>Pace</th>
@@ -16,6 +17,9 @@
       <tr>
         <td>
           <%= activity['start_date'] %>
+        </td>
+        <td>
+          <%= activity.score %>
         </td>
         <td>
           <%= (activity['moving_time'] / 60).round(2) %>
