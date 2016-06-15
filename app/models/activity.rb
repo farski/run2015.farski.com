@@ -33,6 +33,8 @@ class Activity < ActiveRecord::Base
     bonus = [bonus, 100].min
     bonus = 0 if moving_time < 20.minutes
 
+    base = 66 if moving_time < 10.minutes
+
     [base, bonus].reduce(:+)
   end
 
